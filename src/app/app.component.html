@@ -1,0 +1,36 @@
+<h1>Angular Reactive FormArray Filter Using Pipe</h1>
+
+<input type="text" placeholder="Search from table.." [(ngModel)]="filterTable">
+
+<form [formGroup]="paymentForm" class="form-validate form-horizontal" novalidate="">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th class="text-center"> Payment Type </th>
+        <th class="text-center"> Company </th>
+        <th class="text-center"> Description </th>
+        <th class="text-center"> Amount </th>
+        <th class="text-center"> Done Payment </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container formArrayName="lstPayments">
+        <ng-container *ngIf="lstPayments.controls.length; else noPayments">
+          <ng-container *ngFor="let item of lstPayments.controls | filterArray : filterTable; let i=index"
+            [formGroupName]="i">
+            <tr>                              
+              <td>{{ item.get('ptype').value }} </td>
+              <td>{{ item.get('company').value }} </td>
+              <td>{{ item.get('description').value }} </td>
+              <td>$&nbsp;{{ (item.get('amount').value || 0) | number:'1.2-2'}} </td>
+              <td><input type="checkbox" formControlName="donePayment"></td>
+            </tr>
+          </ng-container>
+        </ng-container>
+        <ng-template #noPayments>
+          <tr><td colspan="5"><span>There is no payments in selected customer profile</span></td></tr>
+        </ng-template>
+      </ng-container>
+    </tbody>
+  </table>
+</form>
