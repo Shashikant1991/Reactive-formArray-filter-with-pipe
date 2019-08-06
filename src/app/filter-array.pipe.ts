@@ -8,9 +8,8 @@ export class FilterArrayPipe implements PipeTransform {
       if (controls && controls.length && filter) {
         const lstControls = [];
         for (let i = 0; i < controls.length; i++) {
-          const element = controls[i];
-          const elData = element.getRawValue();
-          const elValues = Object.values(elData);
+          const element = controls[i];          
+          const elValues = Object.values(element.getRawValue());
           const valueExist = elValues.join('').toLowerCase().includes(filter.toLowerCase());
           if (valueExist) { lstControls.push(element); };
         };
